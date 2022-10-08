@@ -1,4 +1,5 @@
-using ItemCatalog.API.Entities;
+using AutoMapper;
+using ItemCatalog.API.Dtos;
 using ItemCatalog.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,26 +10,32 @@ namespace ItemCatalog.API.Controllers;
 public class ItemsController : ControllerBase
 {
     private readonly IItemsRepository _repository;
+    private readonly IMapper _mapper;
 
-    public ItemsController(IItemsRepository repository)
+    public ItemsController(IItemsRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Item>> GetItems()
+    public ActionResult<IEnumerable<ItemDto>> GetItems()
     {
-        return Ok(_repository.GetItems());
+        var items = _repository.GetItems();
+        IEnumerable<ItemDto> itemDtos = _mapper.Map<IEnumerable<ItemDto>>(items);
+
+        return Ok(itemDtos);
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Item> GetItem(Guid id)
+    public ActionResult<ItemDto> GetItem(Guid id)
     {
-        var result = _repository.GetItem(id);
-        if (result is null)
+        var item = _repository.GetItem(id);
+        if (item is null)
         {
             return NotFound();
         }
-        return Ok(result);
+        var itemDto = _mapper.Map<ItemDto>(item);
+        return Ok(itemDto);
     }
 }
