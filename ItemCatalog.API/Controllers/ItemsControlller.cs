@@ -1,6 +1,8 @@
 using AutoMapper;
 using ItemCatalog.API.Dtos;
+using ItemCatalog.API.Entities;
 using ItemCatalog.API.Repositories;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItemCatalog.API.Controllers;
@@ -37,5 +39,13 @@ public class ItemsController : ControllerBase
         }
         var itemDto = _mapper.Map<ItemDto>(item);
         return Ok(itemDto);
+    }
+
+    [HttpPost]
+    public ActionResult<ItemDto> CreateItem(CreateItemDto createItemDto)
+    {
+        var item = _mapper.Map<CreateItemDto, Item>(createItemDto);
+        _repository.CreateItem(item);
+        return CreatedAtAction(nameof(GetItem), new { id = item.Id }, _mapper.Map<ItemDto>(item));
     }
 }

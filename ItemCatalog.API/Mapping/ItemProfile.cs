@@ -9,5 +9,12 @@ public class ItemProfile : Profile
     public ItemProfile()
     {
         CreateMap<Item, ItemDto>();
+        CreateMap<CreateItemDto, Item>()
+        .ForMember(i => i.Id, 
+                    opt =>
+                    opt.MapFrom(d => Guid.NewGuid()))
+        .ForMember(i => i.CreatedDate,
+                    opt =>
+                    opt.MapFrom(x => DateTimeOffset.UtcNow));
     }
 }
