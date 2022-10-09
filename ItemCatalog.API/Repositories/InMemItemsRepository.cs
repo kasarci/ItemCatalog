@@ -25,4 +25,10 @@ public class InMemItemsRepository : IItemsRepository
     {
         items.Add(item);
     }
+
+    public void UpdateItem(Item item)
+    {
+        var index = items.FindIndex(x => x.Id == item.Id);
+        items[index] = item;
+    }
 }

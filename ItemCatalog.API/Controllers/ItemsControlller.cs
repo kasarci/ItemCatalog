@@ -48,4 +48,24 @@ public class ItemsController : ControllerBase
         _repository.CreateItem(item);
         return CreatedAtAction(nameof(GetItem), new { id = item.Id }, _mapper.Map<ItemDto>(item));
     }
+
+    [HttpPut("{id}")]
+    public ActionResult UpdateItem(Guid id, UpdateItemDto updateItemDto) 
+    {
+        var item = _repository.GetItem(id);
+        if (item is null)
+        {
+            return NotFound();
+        }
+
+        item = item with
+        {
+            Name = updateItemDto.Name,
+            Price = updateItemDto.Price
+        };
+
+        _repository.UpdateItem(item);
+
+        return NoContent();
+    }
 }
