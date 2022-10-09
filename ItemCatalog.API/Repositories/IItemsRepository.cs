@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using ItemCatalog.API.Entities;
 
 namespace ItemCatalog.API.Repositories;
@@ -8,4 +9,5 @@ public interface IItemsRepository
     IEnumerable<Item> GetItems();
     void CreateItem(Item item);
     void UpdateItem(Item item);
+    void DeleteItem(Guid id);
 }

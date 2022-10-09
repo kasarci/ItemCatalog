@@ -68,4 +68,17 @@ public class ItemsController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpDelete("{id}")]
+    public ActionResult DeleteItem(Guid id) 
+    {
+        var item = _repository.GetItem(id);
+        if (item is null)
+        {
+            return NotFound();
+        }
+
+        _repository.DeleteItem(id);
+        return NoContent();
+    }
 }
