@@ -1,9 +1,25 @@
 using ItemCatalog.API.Repositories;
+using ItemCatalog.API.Settings;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IItemsRepository, InMemItemsRepository>();
+//Serialize the GUID as string in the database.
+BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+
+//Serialize the DateTimeOffset as string in the database.
+BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
+
+builder.Services.AddSingleton<IMongoClient>(serviceProvider => 
+{
+    var settings = builder.Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
+    return new MongoClient(settings.ConnectionString);
+});
+builder.Services.AddSingleton<IItemsRepository, MongoDbItemsRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers();
