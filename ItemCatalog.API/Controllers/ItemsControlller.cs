@@ -23,7 +23,7 @@ public class ItemsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ItemDto>>> GetItemsAsync()
     {
-        var items = await _repository.GetItemsAsync();
+        var items = await _repository.GetAllAsync();
         IEnumerable<ItemDto> itemDtos = _mapper.Map<IEnumerable<ItemDto>>(items);
 
         return Ok(itemDtos);
@@ -32,7 +32,7 @@ public class ItemsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ItemDto>> GetItemAsync(Guid id)
     {
-        var item = await _repository.GetItemAsync(id);
+        var item = await _repository.GetAsync(id);
         if (item is null)
         {
             return NotFound();
@@ -46,14 +46,14 @@ public class ItemsController : ControllerBase
     public async Task<ActionResult<ItemDto>> CreateItemAsync(CreateItemDto createItemDto)
     {
         var item = _mapper.Map<CreateItemDto, Item>(createItemDto);
-        await _repository.CreateItemAsync(item);
+        await _repository.CreateAsync(item);
         return CreatedAtAction(nameof(GetItemAsync), new { id = item.Id }, _mapper.Map<ItemDto>(item));
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateItemAsync(Guid id, UpdateItemDto updateItemDto)
     {
-        var item = await _repository.GetItemAsync(id);
+        var item = await _repository.GetAsync(id);
         if (item is null)
         {
             return NotFound();
@@ -65,7 +65,7 @@ public class ItemsController : ControllerBase
             Price = updateItemDto.Price
         };
 
-        await _repository.UpdateItemAsync(item);
+        await _repository.UpdateAsync(item);
 
         return NoContent();
     }
@@ -73,13 +73,13 @@ public class ItemsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteItemAsync(Guid id)
     {
-        var item = await _repository.GetItemAsync(id);
+        var item = await _repository.GetAsync(id);
         if (item is null)
         {
             return NotFound();
         }
 
-        await _repository.DeleteItemAsync(id);
+        await _repository.DeleteAsync(id);
         return NoContent();
     }
 }
