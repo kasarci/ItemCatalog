@@ -1,8 +1,6 @@
-using System.Xml.Serialization;
 using ItemCatalog.API.Entities;
-using Microsoft.AspNetCore.Components.Web;
 
-namespace ItemCatalog.API.Repositories;
+namespace ItemCatalog.API.Repositories.Abstract;
 
 public interface IRepositoryBase<T> where T : IEntity, new()
 {

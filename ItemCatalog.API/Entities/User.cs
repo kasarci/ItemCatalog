@@ -1,9 +1,10 @@
 namespace ItemCatalog.API.Entities;
 
-public record User
+public record User : IEntity
 {
-    public string Username { get; set; } = string.Empty;
-    public byte[] PasswordHash { get; set; }
-    public byte[] PasswordSalt { get; set; }
+    public Guid Id { get; init; }
+    public string Username { get; init; } = string.Empty;
+    public byte[] PasswordHash { get; init; }
+    public byte[] PasswordSalt { get; init; }
 
 }

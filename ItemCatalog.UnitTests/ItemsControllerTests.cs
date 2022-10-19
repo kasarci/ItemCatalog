@@ -43,7 +43,7 @@ public class ItemsControllerTests
     {
         //Arrange
         _repositoryStub.Setup(repo =>
-                            repo.GetItemAsync(It.IsAny<Guid>()))
+                            repo.GetAsync(It.IsAny<Guid>()))
                             .ReturnsAsync((Item)null);
 
         var controller = new ItemsController(_repositoryStub.Object, _mapperStub);
@@ -61,7 +61,7 @@ public class ItemsControllerTests
         //Arrange
         var expectedItem = CreateRandomItem();
         _repositoryStub.Setup(repo =>
-                    repo.GetItemAsync(It.IsAny<Guid>()))
+                    repo.GetAsync(It.IsAny<Guid>()))
                     .ReturnsAsync(expectedItem);
 
         var controller = new ItemsController(_repositoryStub.Object, _mapperStub);
@@ -80,7 +80,7 @@ public class ItemsControllerTests
     {
         //Arrange
         _repositoryStub.Setup(repo =>
-                    repo.GetItemsAsync()).ReturnsAsync((IEnumerable<Item>) null);
+                    repo.GetAsync()).ReturnsAsync((IEnumerable<Item>) null);
 
         var controller = new ItemsController(_repositoryStub.Object, _mapperStub);
 
@@ -95,7 +95,7 @@ public class ItemsControllerTests
     {
         //Arrange
         var expectedItems = CreateRandomItems(3);
-        _repositoryStub.Setup(repo => repo.GetItemsAsync()).ReturnsAsync(expectedItems);
+        _repositoryStub.Setup(repo => repo.GetAllAsync()).ReturnsAsync(expectedItems);
 
         var controller = new ItemsController(_repositoryStub.Object, _mapperStub);
 
@@ -132,7 +132,7 @@ public class ItemsControllerTests
         //Arrange
         var controller = new ItemsController(_repositoryStub.Object, _mapperStub);
 
-        _repositoryStub.Setup(repo => repo.GetItemAsync(It.IsAny<Guid>())).ReturnsAsync((Item) null);
+        _repositoryStub.Setup(repo => repo.GetAsync(It.IsAny<Guid>())).ReturnsAsync((Item) null);
         
         //Act
         var result = (controller.UpdateItemAsync(Guid.NewGuid(), _mapperStub.Map<Item,UpdateItemDto>(CreateRandomItem())).Result as NotFoundResult);
@@ -148,7 +148,7 @@ public class ItemsControllerTests
         var controller = new ItemsController(_repositoryStub.Object, _mapperStub);
         var item = CreateRandomItem();
 
-        _repositoryStub.Setup(repo => repo.GetItemAsync(It.IsAny<Guid>())).ReturnsAsync(item);
+        _repositoryStub.Setup(repo => repo.GetAsync(It.IsAny<Guid>())).ReturnsAsync(item);
         
         //Act
         var result = controller.UpdateItemAsync(Guid.NewGuid(), _mapperStub.Map<Item,UpdateItemDto>(CreateRandomItem())).Result as NoContentResult;
@@ -163,7 +163,7 @@ public class ItemsControllerTests
         //Arrange
         var controller = new ItemsController(_repositoryStub.Object, _mapperStub);
 
-        _repositoryStub.Setup(repo => repo.GetItemAsync(It.IsAny<Guid>())).ReturnsAsync((Item) null);
+        _repositoryStub.Setup(repo => repo.GetAsync(It.IsAny<Guid>())).ReturnsAsync((Item) null);
         
         //Act
         var result = controller.DeleteItemAsync(Guid.NewGuid()).Result as NotFoundResult;
@@ -179,7 +179,7 @@ public class ItemsControllerTests
         var controller = new ItemsController(_repositoryStub.Object, _mapperStub);
         var item = CreateRandomItem();
 
-        _repositoryStub.Setup(repo => repo.GetItemAsync(It.IsAny<Guid>())).ReturnsAsync(item);
+        _repositoryStub.Setup(repo => repo.GetAsync(It.IsAny<Guid>())).ReturnsAsync(item);
         
         //Act
         var result = controller.DeleteItemAsync(Guid.NewGuid()).Result as NoContentResult;

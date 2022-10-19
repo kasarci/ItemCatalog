@@ -1,8 +1,5 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using ItemCatalog.API.Entities;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
+using ItemCatalog.API.Repositories.Abstract;
 using MongoDB.Driver;
 
 namespace ItemCatalog.API.Repositories;

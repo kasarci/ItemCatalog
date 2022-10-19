@@ -1,4 +1,5 @@
 using ItemCatalog.API.Entities;
+using ItemCatalog.API.Repositories.Abstract;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

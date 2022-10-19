@@ -1,12 +1,13 @@
-using System;
 using System.Net.Mime;
-using System.Security.AccessControl;
+using System.Text;
 using System.Text.Json;
 using ItemCatalog.API.Repositories;
+using ItemCatalog.API.Repositories.Abstract;
 using ItemCatalog.API.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
-using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
@@ -24,6 +25,7 @@ var mongoDbSettings = builder.Configuration.GetSection(nameof(MongoDbSettings)).
 
 builder.Services.AddSingleton<IMongoClient>(serviceProvider => new MongoClient(mongoDbSettings.ConnectionString));
 builder.Services.AddSingleton<IItemsRepository, MongoDbItemsRepository>();
+builder.Services.AddSingleton<IUsersRepository, MongoDbUsersRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false);
@@ -32,10 +34,31 @@ builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNa
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHealthChecks().AddMongoDb(mongoDbSettings.ConnectionString, 
+builder.Services.AddHealthChecks().AddMongoDb(mongoDbSettings.ConnectionString,
                                                 name: "mongodb",
                                                 timeout: TimeSpan.FromSeconds(3),
                                                 tags: new [] {"ready" });
+
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection(nameof(JwtConfig)));
+byte[]? key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
+var tokenValidationParameters = new TokenValidationParameters()
+{
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(key),
+    ValidateIssuer = false, //for development
+    ValidateAudience = false, //for development
+    RequireExpirationTime = false, //for development
+    ValidateLifetime = true
+    //ValidIssuer = builder.Configuration.GetSection("JwtConfig:Issuer").Value
+};
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(jwt =>
+{
+    jwt.SaveToken = true;
+    jwt.TokenValidationParameters = tokenValidationParameters;
+
+});
 
 var app = builder.Build();
 
