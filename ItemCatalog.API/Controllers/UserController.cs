@@ -1,8 +1,7 @@
 using AutoMapper;
-using ItemCatalog.API.Dtos;
-using ItemCatalog.API.Dtos.UserDtos.Create;
-using ItemCatalog.API.Dtos.UserDtos.Remove;
-using ItemCatalog.API.Entities;
+using ItemCatalog.API.Models.Dtos.UserDtos.Create;
+using ItemCatalog.API.Models.Dtos.UserDtos.Remove;
+using ItemCatalog.API.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

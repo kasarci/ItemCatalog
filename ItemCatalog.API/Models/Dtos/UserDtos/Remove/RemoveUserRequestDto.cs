@@ -1,4 +1,4 @@
-namespace ItemCatalog.API.Dtos.UserDtos.Remove;
+namespace ItemCatalog.API.Models.Dtos.UserDtos.Remove;
 
 public record RemoveUserRequestDto
 {

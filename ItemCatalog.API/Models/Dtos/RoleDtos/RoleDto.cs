@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ItemCatalog.API.Dtos.RoleDtos;
+namespace ItemCatalog.API.Models.Dtos.RoleDtos;
 
 public record RoleDto
 {

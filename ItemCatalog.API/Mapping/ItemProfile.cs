@@ -1,6 +1,6 @@
 using AutoMapper;
-using ItemCatalog.API.Dtos;
-using ItemCatalog.API.Entities;
+using ItemCatalog.API.Models.Dtos;
+using ItemCatalog.API.Models.Entities;
 
 namespace ItemCatalog.API.Mapping;
 

@@ -1,5 +1,5 @@
-using ItemCatalog.API.Dtos.RoleDtos;
-using ItemCatalog.API.Entities;
+using ItemCatalog.API.Models.Dtos.RoleDtos;
+using ItemCatalog.API.Models.Entities;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

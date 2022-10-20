@@ -1,4 +1,4 @@
-namespace ItemCatalog.API.Dtos.UserDtos.Create;
+namespace ItemCatalog.API.Models.Dtos.UserDtos.Create;
 
 public record CreateUserResponseDto
 {

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ItemCatalog.API.Dtos.UserDtos.Create;
+namespace ItemCatalog.API.Models.Dtos.UserDtos.Create;
 
 public record CreateUserRequestDto : UserDto { }

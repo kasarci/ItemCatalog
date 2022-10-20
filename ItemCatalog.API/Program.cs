@@ -1,7 +1,7 @@
 using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
-using ItemCatalog.API.Entities;
+using ItemCatalog.API.Models.Entities;
 using ItemCatalog.API.Repositories;
 using ItemCatalog.API.Repositories.Abstract;
 using ItemCatalog.API.Settings;
@@ -27,6 +27,7 @@ var mongoDbSettings = builder.Configuration.GetSection(nameof(MongoDbSettings)).
 
 builder.Services.AddSingleton<IMongoClient>(serviceProvider => new MongoClient(mongoDbSettings.ConnectionString));
 builder.Services.AddSingleton<IItemsRepository, MongoDbItemsRepository>();
+builder.Services.AddSingleton<IRefreshTokenRepository, MongoDbRefreshTokenRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddIdentity<ApplicationUser,ApplicationRole>(options =>

@@ -1,4 +1,4 @@
-using ItemCatalog.API.Entities;
+using ItemCatalog.API.Models.Entities;
 
 namespace ItemCatalog.API.Repositories;
 

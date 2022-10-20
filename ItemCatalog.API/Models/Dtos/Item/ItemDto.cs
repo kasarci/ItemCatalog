@@ -1,4 +1,4 @@
-namespace ItemCatalog.API.Dtos;
+namespace ItemCatalog.API.Models.Dtos;
 
 public record ItemDto
 {
