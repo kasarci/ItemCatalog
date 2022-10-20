@@ -1,15 +1,16 @@
 using System.ComponentModel.DataAnnotations;
-namespace ItemCatalog.API.Entities;
 
-public class User
+namespace ItemCatalog.API.Dtos;
+
+public record UserDto
 {
     [Required]
-    public string Name { get; set; }
+    public string Username { get; set; }
 
     [Required]
-    [EmailAddress(ErrorMessage = "Invalid E-mail.")]
+    [EmailAddress(ErrorMessage = "Invalid e-mail address.")]
     public string Email { get; set; }
-    
+
     [Required]
     public string Password { get; set; }
 }

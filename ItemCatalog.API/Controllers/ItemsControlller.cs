@@ -1,8 +1,7 @@
 using AutoMapper;
 using ItemCatalog.API.Dtos;
 using ItemCatalog.API.Entities;
-using ItemCatalog.API.Repositories;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
+using ItemCatalog.API.Repositories.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItemCatalog.API.Controllers;

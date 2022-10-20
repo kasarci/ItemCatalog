@@ -7,15 +7,19 @@ namespace ItemCatalog.API.Repositories;
 
 public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : IEntity, new()
 {
-    private const string databaseName = "catalog";
+    private readonly IConfiguration _configuration;
+    private readonly string databaseName;
     protected string CollectionName { get; init; } = typeof(T).Name.ToLower() + "s";
     private readonly IMongoCollection<T> _collection;
     private readonly FilterDefinitionBuilder<T> _filterBuilder = Builders<T>.Filter;
 
-    protected RepositoryBase(IMongoClient mongoClient)
+    protected RepositoryBase(IMongoClient mongoClient, IConfiguration configuration)
     {
         IMongoDatabase database = mongoClient.GetDatabase(databaseName);
         _collection = database.GetCollection<T>(CollectionName);
+        _configuration = configuration;
+        databaseName = _configuration.GetSection("MongoDbSettings:DatabaseName").Value;
+
     }
 
     public async Task CreateAsync(T t)

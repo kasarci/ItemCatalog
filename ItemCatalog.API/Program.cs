@@ -1,11 +1,13 @@
 using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
+using ItemCatalog.API.Entities;
 using ItemCatalog.API.Repositories;
 using ItemCatalog.API.Repositories.Abstract;
 using ItemCatalog.API.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -25,8 +27,14 @@ var mongoDbSettings = builder.Configuration.GetSection(nameof(MongoDbSettings)).
 
 builder.Services.AddSingleton<IMongoClient>(serviceProvider => new MongoClient(mongoDbSettings.ConnectionString));
 builder.Services.AddSingleton<IItemsRepository, MongoDbItemsRepository>();
-builder.Services.AddSingleton<IUsersRepository, MongoDbUsersRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddIdentity<ApplicationUser,ApplicationRole>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+    options.Password.RequiredLength = 6;
+})
+    .AddMongoDbStores<ApplicationUser,ApplicationRole,Guid>(mongoDbSettings.ConnectionString, mongoDbSettings.DatabaseName);
 
 builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false);
 
