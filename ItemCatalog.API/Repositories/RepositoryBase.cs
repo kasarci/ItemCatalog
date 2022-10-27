@@ -9,17 +9,19 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : IEntity, 
 {
     private readonly IConfiguration _configuration;
     private readonly string databaseName;
-    protected string CollectionName { get; init; } = typeof(T).Name.ToLower() + "s";
-    private readonly IMongoCollection<T> _collection;
-    private readonly FilterDefinitionBuilder<T> _filterBuilder = Builders<T>.Filter;
+    private string CollectionName { get; init; } = typeof(T).Name.ToLower() + "s";
+    protected readonly IMongoCollection<T> _collection;
+    protected readonly FilterDefinitionBuilder<T> _filterBuilder = Builders<T>.Filter;
 
     protected RepositoryBase(IMongoClient mongoClient, IConfiguration configuration)
     {
-        IMongoDatabase database = mongoClient.GetDatabase(databaseName);
-        _collection = database.GetCollection<T>(CollectionName);
         _configuration = configuration;
-        databaseName = _configuration.GetSection("MongoDbSettings:DatabaseName").Value;
 
+        databaseName = _configuration.GetSection("MongoDbSettings:DatabaseName").Value;
+        
+        IMongoDatabase database = mongoClient.GetDatabase(databaseName);
+        
+        _collection = database.GetCollection<T>(CollectionName);
     }
 
     public async Task CreateAsync(T t)
@@ -31,12 +33,6 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : IEntity, 
     {
         var filter = _filterBuilder.Eq(t => t.Id, id);
         await _collection.DeleteOneAsync(filter);
-    }
-
-    public async Task<T> GetAsync(Guid id)
-    {
-        var filter = _filterBuilder.Eq(t => t.Id, id);
-        return await _collection.Find(filter).SingleOrDefaultAsync();
     }
 
     public async Task<IEnumerable<T>> GetAllAsync()

@@ -18,6 +18,9 @@ public class RoleController : ControllerBase
         _roleManager = roleManager;
     }
 
+    
+    [HttpPost]
+    [Route("create")]
     public async Task<IActionResult> CreateRole(RoleDto roleDto)
     {
         if(ModelState.IsValid)
@@ -36,6 +39,9 @@ public class RoleController : ControllerBase
         return BadRequest(ModelState);
     }
 
+
+    [HttpPost]
+    [Route("delete")]
     public async Task<IActionResult> DeleteRole(RoleDto roleDto)
     {
         if(ModelState.IsValid)

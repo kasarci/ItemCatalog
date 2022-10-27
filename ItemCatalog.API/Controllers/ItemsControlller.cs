@@ -2,6 +2,8 @@ using AutoMapper;
 using ItemCatalog.API.Models.Dtos;
 using ItemCatalog.API.Models.Entities;
 using ItemCatalog.API.Repositories.Abstract;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItemCatalog.API.Controllers;
@@ -20,6 +22,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<ItemDto>>> GetItemsAsync()
     {
         var items = await _repository.GetAllAsync();
