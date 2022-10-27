@@ -4,6 +4,8 @@ using System.Text.Json;
 using ItemCatalog.API.Models.Entities;
 using ItemCatalog.API.Repositories;
 using ItemCatalog.API.Repositories.Abstract;
+using ItemCatalog.API.Services.Abstract;
+using ItemCatalog.API.Services.Concrete;
 using ItemCatalog.API.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -106,6 +108,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddSingleton(tokenValidationParameters);
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

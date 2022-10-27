@@ -2,7 +2,6 @@ using AutoMapper;
 using ItemCatalog.API.Models.Dtos;
 using ItemCatalog.API.Models.Entities;
 using ItemCatalog.API.Repositories.Abstract;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
